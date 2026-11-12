@@ -6,7 +6,9 @@ import math
 from pathlib import Path
 
 
-DEFAULT = dict(lof=25, missense=20, function=15, expression=15, homology=10, literature=15)
+DEFAULT = dict(lof=10, missense=10, function=10, expression=10, homology=5,
+               literature=5, mapping=30, regulation=20)
+OPTIONAL = {"mapping", "regulation"}
 OUTPUT = ["rank", "priority_score", "observed_evidence_score",
           "evidence_completeness", "strong_evidence_classes", "evidence_tier"]
 
@@ -37,7 +39,7 @@ def main():
         with args.input.open(encoding="utf-8-sig", newline="") as source:
             reader = csv.DictReader(source, strict=True)
             fields = reader.fieldnames or []
-            required = {"gene_id", *(f"{name}_score" for name in weights)}
+            required = {"gene_id", *(f"{name}_score" for name in weights.keys() - OPTIONAL)}
             if required - set(fields) or len(set(fields)) != len(fields) or set(fields) & set(OUTPUT):
                 raise ValueError("Input needs gene_id and six unique score columns without reserved output fields.")
             for row in reader:
@@ -47,7 +49,7 @@ def main():
                 seen.add(gene)
                 points, coverage, strong = [], [], 0
                 for name, weight in weights.items():
-                    raw = row[f"{name}_score"].strip()
+                    raw = row.get(f"{name}_score", "").strip()
                     if not raw:
                         continue
                     score = float(raw)

@@ -1,4 +1,4 @@
-gene_id,lof_score,missense_score,function_score,expression_score,homology_score,literature_score
-DEMO_A,0.75,0.5,0.75,1,0.5,0.75
-DEMO_B,,0.75,0.5,0.5,0.75,0.25
-DEMO_C,0,0.25,0.25,,,0.25
+gene_id,lof_score,missense_score,function_score,expression_score,homology_score,literature_score,mapping_score,regulation_score
+DEMO_A,0.75,0.5,0.75,1,0.5,0.75,0.75,0.75
+DEMO_B,,0.75,0.5,0.5,0.75,0.25,0.5,
+DEMO_C,0,0.25,0.25,,,0.25,0.25,
